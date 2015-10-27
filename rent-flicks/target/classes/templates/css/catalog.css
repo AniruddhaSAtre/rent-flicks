@@ -1,0 +1,12 @@
+@CHARSET "ISO-8859-1";
+h4{
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+.movieButton{
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+.searchDropDown{
+	padding:5px;
+}
