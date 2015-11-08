@@ -25,5 +25,10 @@ public class UserService {
 	public User signIn(User user) {
 		return userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
 	}
+	
+	public User findOne(Integer userId){
+		User user = userRepository.findOne(userId);
+		return user;
+	}
 
 }

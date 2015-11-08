@@ -18,6 +18,7 @@ public class User {
 
 	@Id
 	@GeneratedValue
+	//@Column(name="UID")
 	private Integer userId;
 
 	@Size(max = 256, message = "Email should not be longer than 256 characters",

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rentflicks.markers.Authenticate;
 import com.rentflicks.markers.Create;
 import com.rentflicks.model.User;
+import com.rentflicks.repository.UserRepository;
 import com.rentflicks.service.UserService;
 
 @RestController
@@ -40,6 +41,13 @@ public class UserController {
 			user.setSessionId("DummySessionId");
 			return user;
 		}
+	}
+	
+	@RequestMapping(value="/update_password", method=RequestMethod.POST)
+	public User update(@RequestBody User user){
+		User usr = userService.findOne(user.getUserId());
+		usr.setPassword(user.getPassword());
+		return userService.createUser(usr);
 	}
 
 }
