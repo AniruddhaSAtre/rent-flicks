@@ -25,12 +25,10 @@ angular.module('rentFlicks').controller(
 					$scope.$watch(Auth.isLoggedIn, function(value, oldValue) {
 
 						if (!value && oldValue) {
-							console.log("Disconnect");
 							$location.path('/home');
 						}
 
 						if (value) {
-							console.log("Connect");
 							$scope.loggedIn=true;
 							// Do something when the user is connected
 						}
@@ -57,7 +55,6 @@ angular.module('rentFlicks').controller(
 										requests: item.requests
 									});
 					              });
-								console.log($scope.videos);
 							} else {
 								alert("Error: Server Returned " + response.status);
 							}
@@ -68,7 +65,7 @@ angular.module('rentFlicks').controller(
 						
 						
 						$scope.search = function(title){
-							alert(title);
+							
 							
 							var req = {
 									 method: 'GET',
@@ -99,8 +96,6 @@ angular.module('rentFlicks').controller(
 						}
 						
 						$scope.addMovie = function(){
-							console.log($scope.moviePlot);
-							console.log($scope.movieActor);
 							var r = {
 									 method: 'POST',
 									 url: 'http://localhost:8080/add',
@@ -117,14 +112,9 @@ angular.module('rentFlicks').controller(
 										image: $scope.movieImage
 									}
 								}
-							alert(r.data.title + ":"+ r.data.actor);
-							alert(r.data.year + ":"+ r.data.director);
-							alert(r.data.criticRating + ":"+ r.data.plot);
-							alert(r.data.image);
 							$http(r).then(function(response){
 								//success callback
 								if (response.status == 200) {
-									console.log('Response Add: '+ response.data);
 									var videoReq = {
 											method: 'POST',
 											 url: 'http://localhost:8080/video/add',
@@ -161,6 +151,7 @@ angular.module('rentFlicks').controller(
 						}
 						
 						$scope.accept = function(video, request, message){
+							
 							//alert(video.name + ": " + request.borrower.email + ":" + message);
 							var d = new Date();
 							var dateStr = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
@@ -182,12 +173,20 @@ angular.module('rentFlicks').controller(
 								//success callback
 								if (response.status == 200) {
 									alert("Request Accepted!");
+									/*var emailText = "Hi, "+ Auth.getUser().name +"\nYou have accepted borrow request for your movie '" + video.name +"' from " + request.borrower.firstName + " " + request.borrower.lastName + "\n\nRegards, \n\nTeam Rent-Flicks";
+									var emailSubject = "Borrow Request Acceptance Notification for movie " + video.name;
+									var emailFrom= "noreply@rentflicks.com";
+									var emailFromName = "Borrow Request Acceptance Notification";
+									var emailTo = Auth.getUser().email;
+									var emailToName = "Request Notification";
+									var requestType = "Borrow Request";
 									
+									sendEmail(emailText, emailSubject, emailFrom, emailFromName, emailTo, emailToName, requestType);*/
 									var mailJSON ={
 									        "key": key,
 									        "message": {
 									          "html": "",
-									          "text": "Hi, "+ Auth.getUser().name +"\n You have accepted borrow request for your movie '" + video.name +"' from " + request.borrower.email + "\n\nRegards, \n\nTeam Rent-Flicks",
+									          "text": "Hi, "+ Auth.getUser().name +"\nYou have accepted borrow request for your movie '" + video.name +"' from " + request.borrower.firstName + " " + request.borrower.lastName + "\n\nRegards, \n\nTeam Rent-Flicks",
 									          "subject": "Borrow Request Acceptance Notification for movie " + video.name,
 									          "from_email": "noreply@rentflicks.com",
 									          "from_name": "Borrow Request Acceptance Notification",
@@ -230,12 +229,12 @@ angular.module('rentFlicks').controller(
 										        "key": key,
 										        "message": {
 										          "html": "",
-										          "text": "Hi "+ request.borrower.firstName + " " + request.borrower.lastName +", \n Your borrow reques for movie '" + video.name +"' has been accepted by the owner.\n\nRegards, \n\nTeam Rent-Flicks",
+										          "text": "Hi "+ request.borrower.firstName + " " + request.borrower.lastName +", \nYour borrow reques for movie '" + video.name +"' has been accepted by the owner.\n\nRegards, \n\nTeam Rent-Flicks",
 										          "subject": "Borrow Request Acceptance Notification for movie " + video.name,
 										          "from_email": "noreply@rentflicks.com",
 										          "to": [
 										            {
-										              "email": Auth.getUser().email,
+										              "email": request.borrower.email,
 										              "type": "to"
 										            }
 										          ],
@@ -258,7 +257,6 @@ angular.module('rentFlicks').controller(
 										    var apiURL = "https://mandrillapp.com/api/1.0/messages/send.json";
 										    $http.post(apiURL, mailJSON).
 										      success(function(data, status, headers, config) {
-										        console.log('borrow email request status: ' + status);
 										        /*$timeout(function() {
 										            var el = document.getElementById('cancel' + index);
 										            angular.element(el).triggerHandler('data-dismiss');
@@ -300,7 +298,7 @@ angular.module('rentFlicks').controller(
 									        "key": key,
 									        "message": {
 									          "html": "",
-									          "text": "Hi, "+ Auth.getUser().name +"\n You have denied borrow request for your movie '" + video.name +"' from " + request.borrower.email + "\n\nRegards, \n\nTeam Rent-Flicks",
+									          "text": "Hi, "+ Auth.getUser().name +"\nYou have denied borrow request for your movie '" + video.name +"' from " + request.borrower.firstName + " " + request.borrower.lastName  + "\n\nRegards, \n\nTeam Rent-Flicks",
 									          "subject": "Borrow Request Denial Notification for movie " + video.name,
 									          "from_email": "noreply@rentflicks.com",
 									          "to": [
@@ -328,7 +326,6 @@ angular.module('rentFlicks').controller(
 									    var apiURL = "https://mandrillapp.com/api/1.0/messages/send.json";
 									    $http.post(apiURL, mailJSON).
 									      success(function(data, status, headers, config) {
-									        console.log('borrow email request status: ' + status);
 									        /*$timeout(function() {
 									            var el = document.getElementById('cancel' + index);
 									            angular.element(el).triggerHandler('data-dismiss');
@@ -341,12 +338,12 @@ angular.module('rentFlicks').controller(
 										        "key": key,
 										        "message": {
 										          "html": "",
-										          "text": "Hi "+ request.borrower.firstName + " " + request.borrower.lastName +", \n Your borrow reques for movie '" + video.name +"' has been denied by the owner.\n\nRegards, \n\nTeam Rent-Flicks",
+										          "text": "Hi "+ request.borrower.firstName + " " + request.borrower.lastName +", \nYour borrow reques for movie '" + video.name +"' has been denied by the owner.\n\nRegards, \n\nTeam Rent-Flicks",
 										          "subject": "Borrow Request Acceptance Notification for movie " + video.name,
 										          "from_email": "noreply@rentflicks.com",
 										          "to": [
 										            {
-										              "email": Auth.getUser().email,
+										              "email": request.borrower.email,
 										              "type": "to"
 										            }
 										          ],
@@ -392,3 +389,9 @@ angular.module('rentFlicks').controller(
 						
 					}, true)
 				} ]);
+
+function sendEmail(emailText, emailSubject, emailFrom, emailFromName, emailTo, emailToName, requestType){
+	alert("in sendd email");
+	alert(emailText);
+	alert(requestType);
+}

@@ -5,8 +5,6 @@ angular.module('rentFlicks').controller('SignInController', [ '$scope', '$http',
 		$scope.visitor = true;
 		$scope.logging=$rootScope.logging;
 		$scope.signin = function(){
-			console.log($scope.uname);
-			console.log($scope.pwd);
 			var req = {
 					 method: 'POST',
 					 url: 'http://localhost:8080/signIn',
@@ -26,7 +24,6 @@ angular.module('rentFlicks').controller('SignInController', [ '$scope', '$http',
 					logging.email = $scope.uname;
 					$rootScope.logging.value=true;
 					$rootScope.logging.email = $scope.uname;
-					console.log('after signin : '+$rootScope.logging);
 					Auth.setUser({id:response.data.userId, email: response.data.email, name: response.data.firstName + " " + response.data.lastName})
 				
 				} else {

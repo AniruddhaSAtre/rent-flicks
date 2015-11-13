@@ -29,15 +29,10 @@ app.run(['$rootScope', '$location','Auth', function ($rootScope, $location, Auth
     $rootScope.$on('$routeChangeStart', function (event) {
 
         if (!Auth.isLoggedIn()) {
-            console.log('DENY');
-            console.log($location.url());
             //event.preventDefault();
             $location.path('/home');
         }
         else {
-        
-            console.log('ALLOW');
-            console.log($location.url());
             var url = $location.url();
             $location.path(url);
             

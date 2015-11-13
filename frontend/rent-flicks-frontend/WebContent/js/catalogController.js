@@ -50,17 +50,13 @@ angular.module('rentFlicks').controller('CatalogController', ['$scope', '$compil
 	  $scope.$watch(Auth.isLoggedIn, function (value, oldValue) {
 
 	    if(!value && oldValue) {
-	      console.log("Value: " + value);
-	      console.log("Old Value: " + oldValue);
 	      $scope.loggedIn= false;
 	      //$location.path('/home');
 	    }
 		
 
 	    if(value) {
-	      console.log("Connect");
 	      $scope.loggedIn= true;
-	      console.log('x: '+$scope.loggedIn);
 	      //Do something when the user is connected
 	    }
 	    var logged;
@@ -70,7 +66,7 @@ angular.module('rentFlicks').controller('CatalogController', ['$scope', '$compil
 	    else{
 	    	logged= 'false';
 	    }
-	    console.log(logged)
+	    //console.log(logged)
 	    var req = {
 				 method: 'GET',
 				 url: 'http://localhost:8080/videos',
@@ -101,7 +97,6 @@ angular.module('rentFlicks').controller('CatalogController', ['$scope', '$compil
 						borrowMessage: ''
 					});
 	              });
-				console.log($scope.flicks);
 			} else {
 				alert("Error: Server Returned " + response.status);
 			}
@@ -131,16 +126,16 @@ angular.module('rentFlicks').controller('CatalogController', ['$scope', '$compil
 					}
 					$http(request).then(
 							function(resp) {
+								alert("Borrow Request Sent successfully!");
 								// success callback
 								if (resp.status == 200) {
-									alert("Borrow Request Sent Successfully!");
 									
 									
 									var mailJSON ={
 									        "key": key,
 									        "message": {
 									          "html": "",
-									          "text": "Hi,\n" + Auth.getUser().name + " has requested to borrow your movie '" + flick.name +"'. User says: \n" + flick.borrowMessage + "\nPlase log in to acccept this request. \nRegards, \n\nTeam Rent-Flicks",
+									          "text": "Hi,\n" + Auth.getUser().name + " has requested to borrow your movie '" + flick.name +"'.\nUser says: \n" + flick.borrowMessage + "\n\nPlase log in to acccept this request. \n\nRegards, \n\nTeam Rent-Flicks",
 									          "subject": "Borrow Request for movie " + flick.name,
 									          "from_email": "noreply@rentflicks.com",
 									          "from_name": "New Borrow Request",
@@ -182,7 +177,7 @@ angular.module('rentFlicks').controller('CatalogController', ['$scope', '$compil
 										        "key": key,
 										        "message": {
 										          "html": "",
-										          "text": "Hi "+ Auth.getUser().name +",\n" +  + "Yout request to borrow movie '" + flick.name +"'has been sent to owner with this message: \n" + flick.borrowMessage + "\n\nRegards, \n\nTeam Rent-Flicks",
+										          "text": "Hi "+ Auth.getUser().name +",\n" + "Your request to borrow movie '" + flick.name +"' has been sent to owner with this message: \n" + flick.borrowMessage + "\n\nRegards, \n\nTeam Rent-Flicks",
 										          "subject": "Borrow Request for movie " + flick.name,
 										          "from_email": "noreply@rentflicks.com",
 										          "from_name": "Borrow Request",
