@@ -66,10 +66,10 @@
 						aria-expanded="true" ng-show="visitor"> Sign Up <span
 							class="caret"></span>
 					</a>
-						<ul class="dropdown-menu " aria-labelledby="signUpDropdown">
+						<ul class="dropdown-menu " aria-labelledby="signUpDropdown" ng-show="signUpSuccess">
 							<form class="form" id="formSignUp"
 								style="width: 200px; padding: 10px;"
-								ng-controller="SignUpController">
+								ng-controller="SignUpController" >
 								<input class="form-control logInForm" type="text"
 									placeholder="First Name" ng-model="firstName"><input
 									class="form-control logInForm" type="text"
@@ -91,7 +91,7 @@
 						aria-expanded="true" ng-show="visitor"> Sign In <span
 							class="caret"></span>
 					</a>
-						<ul class="dropdown-menu " aria-labelledby="signInDropdown">
+						<ul class="dropdown-menu " aria-labelledby="signInDropdown" ng-show="visitor">
 							<form class="form" id="formLogin" style="padding: 10px;">
 								<input class="form-control logInForm" id="uname" type="text"
 									placeholder="Email" ng-model="uname"> <input

@@ -27,11 +27,14 @@ angular.module('rentFlicks').controller('SignInController', [ '$scope', '$http',
 					Auth.setUser({id:response.data.userId, email: response.data.email, name: response.data.firstName + " " + response.data.lastName})
 				
 				} else {
-					alert("Error: Server Returned " + response.status);
+					alert("Error: " + response.data.message);
 				}
 			}, function(response){
 				//error callback
-				alert("Error: Server returned " + response.status);
+				if(typeof response.data.message === 'undefined')
+					alert("Error: " + response.statusText);
+				else
+					alert("Error: " + response.data.message);
 			});
 		};
 		$scope.signout = function(){

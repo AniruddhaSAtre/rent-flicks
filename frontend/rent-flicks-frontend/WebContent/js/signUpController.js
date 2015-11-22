@@ -1,10 +1,11 @@
 angular.module('rentFlicks').controller(
 		'SignUpController',
 		[
-				'$scope',
+				'$scope', '$rootScope',
 				'$http', 'logging',
-				function($scope, $http, logging) {
+				function($scope, $rootScope, $http, logging) {
 
+					$rootScope.signUpSuccess = true;
 					$scope.firstName;
 					$scope.lastName;
 					$scope.email;
@@ -25,21 +26,32 @@ angular.module('rentFlicks').controller(
 								password : password
 							}
 						}
-						$http(req).then(
-								function(response) {
-									// success callback
-									if (response.status == 200) {
-										alert("Sign Up Successful!");
-									} else {
-										alert("Error: Server Returned "
-												+ response.status);
-									}
-								},
-								function(response) {
-									// error callback
-									alert("Error: Server returned "
-											+ response.status);
-								});
+						if(password == reTypedPassword){
+							$http(req).then(
+									function(response) {
+										// success callback
+										if (response.status == 200) {
+											$rootScope.signUpSuccess = false;
+											alert("Sign Up Successful!");
+											
+											
+										} else {
+											alert("Error: "
+													+ response.data.statusText);
+										}
+									},
+									function(response) {
+										// error callback
+										if(typeof response.data.message === 'undefined')
+											alert("Error: " + response.statusText);
+										else
+											alert("Error: " + response.data.message);
+									});
+						}
+						else{
+							alert('Passwords do not match!');
+						}
+						
 
 					};
 				} ]);

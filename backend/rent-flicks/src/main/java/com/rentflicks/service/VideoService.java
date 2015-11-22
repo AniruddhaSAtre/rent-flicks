@@ -1,12 +1,12 @@
 package com.rentflicks.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rentflicks.model.Video;
 import com.rentflicks.repository.VideoRepository;
-
-import java.util.List;
 
 @Service
 public class VideoService {

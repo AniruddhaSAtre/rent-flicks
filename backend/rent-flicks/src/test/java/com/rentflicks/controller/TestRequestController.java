@@ -1,4 +1,4 @@
-package com.rentflicks.controller;
+/*package com.rentflicks.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,5 +35,5 @@ public class TestRequestController {
  
         /*verify(todoServiceMock, times(1)).findAll();
         verifyNoMoreInteractions(todoServiceMock);*/
-    }
-}
+    /*}
+}*/

@@ -1,3 +1,53 @@
 <div class="jumbotron">
-	In My requests
+	<div class="row" ng-show="requestData.length == 0">
+		<h2 style="color: red;">No pending borrow or return requests.</h2>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-md-3" ng-repeat="request in requestData"
+			style="margin-top: 5px;">
+			<div class="thumbnail">
+				<img ng-src="{{request.image}}" style="width: 100%; height: 250px;">
+				<div class="caption">
+					<h4>{{request.name}}</h4>
+					<div class="movieButton">
+						<button class="btn btn-info" data-toggle="modal" data-target="#returnModal{{$index}}" 
+							ng-show="{{request.isBorrowed}} == true">
+							Return</button>
+						<button class="btn btn-default" role="button"
+							ng-show="{{request.isBorrowed}} == false" ng-disabled="true">Request Pending</button>
+						<!-- button class="btn btn-danger" ng-click="deleteMovie()" role="button">Delete</button-->
+					</div>
+					
+					
+					<div class="modal fade" id="returnModal{{$index}}" modal="returnModal{{$index}}" tabindex="-1" role="dialog" aria-labelledby="executionOptionLabel"
+					aria-hidden="true">
+						<div class="modal-dialog">
+
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+									</button>
+									<h3 class="modal-title">{{request.name}}</h3>
+								</div>
+								<div class="modal-body">
+									<div class="row" style="margin-left:5px; margin-right:5px;">
+										<div class="col-md-4">
+											<input type="text" ng-model="request.message" placeholder="Enter your message...">
+										</div>
+									</div>
+									<div class="row" style="margin-left:5px; margin-right:5px; margin-top:5px;">
+										<div class="col-md-4">
+											<button class="btn btn-success" style="margin-right:5px;" ng-click="returnRequest(request, request.message)">Send</button>
+											<button id="cancel{{$index}}" style="margin-left:5px;" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+										</div>
+									</div>
+									
+									
+								</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>

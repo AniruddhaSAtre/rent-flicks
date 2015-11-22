@@ -10,8 +10,9 @@
 				<div class="movieButton">
 					<button class="btn btn-info" role="button" data-toggle="modal"
 						data-target="#detailsModal{{$index}}" ng-click="Clear()">Details</button>
-					<button ng-show="{{flick.loggedIn}} == true " class="btn btn-success" data-toggle="modal"
+					<button ng-show="{{flick.loggedIn}} == true  && {{flick.isOwner}} == false && {{flick.isBorrowed}} == false" class="btn btn-success" data-toggle="modal"
 						data-target="#borrowModal{{$index}}" ng-click="borrow()" role="button">Borrow</button>
+					<button ng-show="{{flick.loggedIn}} == true  && ({{flick.isOwner}} == true || {{flick.isBorrowed}} == true)" class="btn btn-warning" ng-disabled="true">Not Available</button>
 				</div>
 				<div class="modal fade" id="detailsModal{{$index}}"
 					tabindex="-1" role="dialog" aria-labelledby="executionOptionLabel"

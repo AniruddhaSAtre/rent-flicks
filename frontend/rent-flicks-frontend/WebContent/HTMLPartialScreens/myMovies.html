@@ -65,6 +65,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="row" ng-show="videos.length == 0">
+		<h2 style="color: red;">No Movies So far....</h2>
+	</div>
 	<div class="row">
 		<div class="col-sm-4 col-md-3" ng-repeat="video in videos" style="margin-top:5px;">
 			<div class="thumbnail">
@@ -72,12 +75,13 @@
 				<div class="caption">
 					<h4>{{video.name}}</h4>
 					<div class="movieButton">
-						<button class="btn btn-info" role="button" data-toggle="modal"
-						data-target="#requestsModal{{$index}}">Show Requests</button>
+						<button class="btn btn-info" role="button" ng-show="{{video.requests.length}} != 0" data-toggle="modal"
+						data-target="#requestsModal{{$index}}" ng-click="openModal($index)">Show Requests</button>
+						<button class="btn btn-default" ng-show="{{video.requests.length}} == 0" ng-disabled="true"> No Requests</button>
 						<!-- button class="btn btn-danger" ng-click="deleteMovie()" role="button">Delete</button-->
 					</div>
 					
-					<div class="modal fade" id="requestsModal{{$index}}" tabindex="-1" role="dialog" aria-labelledby="executionOptionLabel"
+					<div class="modal fade" id="requestsModal{{$index}}" modal="requestsModal{{$index}}" tabindex="-1" role="dialog" aria-labelledby="executionOptionLabel"
 					aria-hidden="true">
 						<div class="modal-dialog">
 
@@ -93,17 +97,20 @@
 											<div class="col-md-4">
 												{{request.borrower.firstName}}&nbsp;{{request.borrower.lastName}}
 											</div>
-											<div class="col-md-5">
+											<div class="col-md-5" >
 												<div style="margin-left:3px;"><input type="text" ng-model="request.message" placeholder="Enter your reply.."></div>
 											</div>
-											<div class="col-md-3">
-												<button class="btn btn-success" ng-click="accept(video, request, request.message)"><span class="glyphicon glyphicon-ok"></span>
-												<button class="btn btn-warning" style="margin-left:2px;" ng-click="deny(video, request, request.message)"><span class="glyphicon glyphicon-remove"></span></button>
+											<div class="col-md-3" >
+												<button class="btn btn-success" ng-show="{{video.isBorrowed}} == false" data-dismiss="modal" ng-click="accept(video, request, request.message, $index)"><span class="glyphicon glyphicon-ok"></span>
+												<button class="btn btn-danger" ng-show="{{request.isBorrowed}} == false" style="margin-left:2px;" ng-click="deny(video, request, request.message)"><span class="glyphicon glyphicon-remove"></span></button>
+												<button class="btn btn-warning" ng-show="{{request.isBorrowed}} == true && {{video.isBorrowed}} == true" style="margin-left:2px;" ng-click="askReturn(video, request, request.message)">Ask for Return</button>
 											</div>
 										</div>
 									</div>	
 								</div>
-								
+								<div class="modal-footer">
+									<button class="btn btn-warning" class="close" data-dismiss="modal" ng-click="cancel($index)">Cancel</button>
+								</div>
 						</div>
 					</div>
 					

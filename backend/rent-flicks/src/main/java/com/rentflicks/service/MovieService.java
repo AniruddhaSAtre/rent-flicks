@@ -1,12 +1,12 @@
 package com.rentflicks.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rentflicks.model.Movie;
 import com.rentflicks.repository.MovieRepository;
-
-import java.util.List;
 
 @Service
 public class MovieService {
@@ -21,6 +21,11 @@ public class MovieService {
 
 	public List<Movie> getMovies() {
 		List<Movie> movies = movieRepository.findAll();
+		return movies;
+	}
+	
+	public List<Movie> getMoviesByTitle(String title) {
+		List<Movie> movies = movieRepository.findByTitle(title);
 		return movies;
 	}
 	

@@ -1,3 +1,131 @@
 <div class="jumbotron">
-	In Forum
+	<div class="row">
+		<div class="col-sm-4 col-md-3" ng-repeat="movie in movies"
+			style="margin-top: 5px;">
+			<div class="thumbnail">
+				<img ng-src="{{movie.image}}" style="width: 100%; height: 250px;">
+				<div class="caption">
+					<h4>{{movie.title}}</h4>
+					<div class="movieButton">
+						<button class="btn btn-info" ng-show="movie.requests.length != 0"
+							data-toggle="modal" data-target="#reviewsModal{{$index}}">Reviews</button>
+						<button class="btn btn-success" role="button" data-toggle="modal"
+							data-target="#addReviewsModal{{$index}}"
+							ng-show="movie.reviewFlag == false">Add Review</button>
+					</div>
+					<div class="modal fade" id="reviewsModal{{$index}}"
+						modal="reviewsModal{{$index}}" tabindex="-1" role="dialog"
+						aria-labelledby="executionOptionLabel" aria-hidden="true">
+						<div class="modal-dialog">
+
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h3 class="modal-title">{{movie.title}}</h3>
+								</div>
+								<div class="modal-body">
+									<div class="row" style="width: 100%; text-align: center;">
+										<div style="display: inline-block;">
+											<img ng-src="{{movie.image}}"
+												style="margin-bottom: 5px; width: 250px; height: 250px; border-radius: 5px;">
+										</div>
+									</div>
+									<div class="row" style="width: 100%; text-align: center;">
+										<div style="display: inline-block;">
+											<h4>
+												<b>{{movie.title}}</b>&nbsp;({{movie.year}})
+											</h4>
+										</div>
+									</div>
+									<div class="row" style="width:100%; margin-left:5px; margin-right:5px;">
+										<div style="display: inline-block; float: left">
+											<h4>
+												<b> Director: </b>{{movie.director}}
+											</h4>
+										</div>
+										<div style="display: inline-block; float: right;">
+											<h4>
+												<b> Critic Rating: </b>{{movie.criticRating}}
+											</h4>
+										</div>
+									</div>
+									<div ng-show="movie.noReviews != 0" class="row" style="width:100%; margin-left:5px; margin-right:5px;">
+										<h4><b>Reviews:</b></h4>
+									</div>
+									<div ng-show="movie.noReviews == 0" class="row" style="width:100%; margin-left:5px; margin-right:5px;">
+										<h5>No reviews available!</h5>
+									</div>
+									<div class="row" ng-show="movie.noReviews != 0" ng-repeat="review in movie.reviews" style="width:100%; margin-left:5px; margin-right:5px; text-align:justify;">
+										<div>
+											<strong>{{review.userName}}</strong>({{review.rating}}):<i>{{review.review}}</i>
+										</div>
+									</div>	
+																		
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-warning" class="close"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal fade" id="addReviewsModal{{$index}}"
+						modal="addReviewsModal{{$index}}" tabindex="-1" role="dialog"
+						aria-labelledby="executionOptionLabel" aria-hidden="true">
+						<div class="modal-dialog">
+
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h3 class="modal-title">{{movie.title}}</h3>
+								</div>
+								<div class="modal-body">
+									<div class="row" style="width: 100%; text-align: center;">
+										<div style="display: inline-block;">
+											<img ng-src="{{movie.image}}"
+												style="margin-bottom: 5px; width: 250px; height: 250px; border-radius: 5px;">
+										</div>
+									</div>
+									<div class="row" style="width: 100%; text-align: center;">
+										<div style="display: inline-block;">
+											<h4>
+												<b>{{movie.title}}</b>&nbsp;({{movie.year}})
+											</h4>
+										</div>
+									</div>
+									<div class="row" style="width:100%;margin-left:5px; margin-right:5px;">
+										<b>Review:</b>
+									</div>
+									<div class="row" style="width:100%;margin-left:5px; margin-right:5px;">
+										<textarea rows="3" style="width:100%; border-radius:5px;" ng-model="message" placeholder="Enter review here...." required></textarea>
+									</div>
+									<div class="row" style="width:100%;margin-left:5px; margin-right:5px;">
+										<b>Rating:</b>
+									</div>
+									<div class="row" style="width:100%;margin-left:5px; margin-right:5px;">
+										<input type="number" min="0.1" max="10" rows="1" style="width:100%; border-radius:5px;" ng-model="rating" placeholder="Enter ratings on a scale of 0 to 10...." required></textarea>
+									</div>
+									<div class="row" style="width:100%;margin-left:5px; margin-right:5px; margin-top:5px;">
+										<button class="btn btn-success" ng-click="addReview(movie, message, rating)">Submit</button>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-warning" class="close"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
