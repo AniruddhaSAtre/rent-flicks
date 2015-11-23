@@ -24,6 +24,10 @@ public class MovieService {
 		return movies;
 	}
 	
+	public Movie findOne(Integer movieId){
+		return movieRepository.findOne(movieId);
+	}
+	
 	public List<Movie> getMoviesByTitle(String title) {
 		List<Movie> movies = movieRepository.findByTitle(title);
 		return movies;

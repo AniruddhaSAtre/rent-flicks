@@ -24,6 +24,10 @@ public class ReviewService {
 		return reviews;
 	}
 	
+	public Review getReviewById(Integer reviewId){
+		return reviewRepository.findOne(reviewId);
+	}
+	
 	public Review addMovie(Review review){
 		return reviewRepository.save(review);
 	}

@@ -116,7 +116,7 @@ angular.module('rentFlicks').controller('CatalogController', ['$scope', '$compil
 								alert("Borrow Request Sent successfully!");
 								// success callback
 								if (resp.status == 200) {
-									if(typeof message == 'undefined')
+									if(typeof flick.borrowMessage == 'undefined')
 										emailText="Hi,\n" + Auth.getUser().name + " has requested to borrow your movie '" + flick.name +"'.\n\nPlase log in to acccept this request. \n\nRegards, \n\nTeam Rent-Flicks";
 									else
 										emailText="Hi,\n" + Auth.getUser().name + " has requested to borrow your movie '" + flick.name +"'.\nUser says: \n" + flick.borrowMessage + "\n\nPlase log in to acccept this request. \n\nRegards, \n\nTeam Rent-Flicks";
@@ -126,7 +126,7 @@ angular.module('rentFlicks').controller('CatalogController', ['$scope', '$compil
 									emailReceiverName="New Request";
 									Email.sendEmail(emailText, emailSubject, emailFromName, emailReceiver, emailReceiverName, "Borrow Request(Owner)");
 									
-									if(typeof message == 'undefined')
+									if(typeof flick.borrowMessage == 'undefined')
 										emailText= "Hi "+ Auth.getUser().name +",\n" + "Your request to borrow movie '" + flick.name +"' has been sent to owner.\n\nRegards, \n\nTeam Rent-Flicks";
 									else
 										emailText= "Hi "+ Auth.getUser().name +",\n" + "Your request to borrow movie '" + flick.name +"' has been sent to owner with this message: \n" + flick.borrowMessage + "\n\nRegards, \n\nTeam Rent-Flicks";

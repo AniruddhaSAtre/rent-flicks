@@ -35,6 +35,7 @@ public class TestMovieController {
     
     @Test
 	public void testMovies() throws Exception {
+    	
     	/*mockMvc.perform("/mail")
         .andExpect(status().isCreated());*/
     }

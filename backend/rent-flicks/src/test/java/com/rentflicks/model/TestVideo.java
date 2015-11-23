@@ -1,14 +1,17 @@
 package com.rentflicks.model;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.rentflicks.RentFlicksApplication;
+import com.rentflicks.service.VideoService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = RentFlicksApplication.class)
@@ -16,24 +19,21 @@ public class TestVideo {
 	
 	private Video video;
 	
+	@Autowired
+	private VideoService videoService;
+	
 	@Before
 	public void setUp() throws Exception{
 		video = new Video();
+		video.setMovieId(2);
+		video.setOwnerId(1);
 	}
 	
 	@Test
-	public void testValidMovie(){
+	public void testValidMovieId() throws Exception{
 		boolean exceptionCaught = false;
-		Movie movie = new Movie();
-		movie.setActor("test");
-		movie.setCriticRating((float)8.2);
-		movie.setDirector("test");
-		movie.setImage("test");
-		movie.setPlot("test");
-		movie.setTitle("test");
-		movie.setYear(2004);
 		try{
-			video.setMovie(movie);
+			videoService.addVideo(video);
 		}
 		catch(Exception e){
 			exceptionCaught = true;
@@ -42,29 +42,23 @@ public class TestVideo {
 	}
 	
 	@Test
-	public void testValidOwner(){
+	public void testInvalidMovieId() throws Exception{
 		boolean exceptionCaught = false;
-		User owner = new User();
-		owner.setEmail("aatre@uncc.edu");
-		owner.setFirstName("test");
-		owner.setLastName("test");
-		owner.setPassword("test12");
 		try{
-			video.setOwner(owner);
+			video.setMovieId(1);
+			videoService.addVideo(video);
 		}
 		catch(Exception e){
 			exceptionCaught = true;
 		}
-		assertFalse(exceptionCaught);
+		assertTrue(exceptionCaught);
 	}
 	
-	
 	@Test
-	public void testInvalidMovie(){
+	public void testValidOwnerId() throws Exception{
 		boolean exceptionCaught = false;
-		Movie movie = new Movie();
 		try{
-			video.setMovie(movie);
+			videoService.addVideo(video);
 		}
 		catch(Exception e){
 			exceptionCaught = true;
@@ -73,17 +67,18 @@ public class TestVideo {
 	}
 	
 	@Test
-	public void testInvalidOwner(){
+	public void testInvalidOwnerId() throws Exception{
 		boolean exceptionCaught = false;
-		User owner = new User();
 		try{
-			video.setOwner(owner);
+			video.setOwnerId(0);
+			videoService.addVideo(video);
 		}
 		catch(Exception e){
 			exceptionCaught = true;
 		}
-		assertFalse(exceptionCaught);
+		assertTrue(exceptionCaught);
 	}
-
+	
+	
 }
 

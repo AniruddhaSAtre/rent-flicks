@@ -34,6 +34,10 @@ public class VideoService {
 		return videos;
 	}
 	
+	public Video getVideoById(Integer id){
+		return videoRepository.findOne(id);
+	}
+	
 	public Video addVideo(Video video){
 		return videoRepository.save(video);
 	}

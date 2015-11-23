@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -20,16 +21,19 @@ public class Review {
 
 	@OneToOne
 	@JoinColumn(name="movieId", insertable=false, updatable=false)
-	 private Movie movie;
+	private Movie movie;
 	
+	@NotNull(message="Movie ID missing")
 	private Integer movieId;
 	
 	@OneToOne
 	@JoinColumn(name="userId", insertable=false, updatable=false)
-	  private User user;
+	private User user;
 	
+	@NotNull(message="User ID missing")
 	private Integer userId;
 	
+	@NotNull(message = "Missing rating")
 	private Float rating;
 
 	public Integer getReviewId() {
@@ -40,6 +44,7 @@ public class Review {
 		this.reviewId = reviewId;
 	}
 
+	@NotNull(message = "Missing review")
 	public String getReview() {
 		return review;
 	}

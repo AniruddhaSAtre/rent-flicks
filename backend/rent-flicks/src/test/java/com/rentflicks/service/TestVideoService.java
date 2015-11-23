@@ -1,8 +1,9 @@
 package com.rentflicks.service;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +24,106 @@ public class TestVideoService {
 
 	// The setUp() method is omitted.
 
+	public boolean compareVideos(Video first, Video second){
+		boolean videoIdCheck = first.getVideoId().equals(second.getVideoId());
+		boolean movieIdCheck = first.getMovieId().equals(second.getMovieId());
+		boolean ownerIdCheck = first.getOwnerId().equals(second.getOwnerId());
+		if(videoIdCheck && movieIdCheck && ownerIdCheck)
+			return true;
+		return false;
+	}
+	
 	@Test
-	public void testVideos() throws Exception {
+	public void testGetVideos() throws Exception {
+		boolean condition = false;
 		List<Video> videos = videoService.getVideos();
-		Assert.assertTrue(videos.size() != 0);
+		Video v = videos.get(1);
+		Video resp = videoService.getVideoById(v.getVideoId());
+		if (compareVideos(v, resp))
+			condition = true;
+		assertTrue(condition);
+	}
+	
+	@Test
+	public void testGetVideosUser() throws Exception{
+		boolean condition = true;
+		List<Video> videos = videoService.getVideosUser(1);
+		List<Video> allVideos = videoService.getVideos();
+		for(Video v: videos){
+			boolean cond = false;
+			for(Video v1: allVideos){
+				if(compareVideos(v, v1)){
+					cond = true;
+					break;
+				}
+			}
+			condition = condition && cond;
+		}
+		assertTrue(condition);
 	}
 
-	public void testVideosUser() throws Exception {
-		List<Video> videosUser = videoService.getVideosUser(1);
-		Assert.assertTrue(videosUser.size() != 0);
+	@Test
+	public void testGetRequestsUser() throws Exception{
+		boolean condition = true;
+		List<Video> videos = videoService.getVideosUser(1);
+		List<Video> allVideos = videoService.getVideos();
+		for(Video v: videos){
+			boolean cond = false;
+			for(Video v1: allVideos){
+				if(compareVideos(v, v1)){
+					cond = true;
+					break;
+				}
+			}
+			condition = condition && cond;
+		}
+		assertTrue(condition);
 	}
 
-	public void testRequestsUser() throws Exception {
-		List<Video> requestsUser = videoService.getRequestsUser(20);
-		Assert.assertTrue(requestsUser.isEmpty());
-
+	@Test
+	public void testValidGetVideoById() throws Exception{
+		boolean condition = false;
+		Video v = videoService.getVideoById(1);
+		if (v.getVideoId() == 1)
+			condition = true;
+		assertTrue(condition);
 	}
 
+	@Test
+	public void testInvalidGetVideoById() throws Exception{
+		boolean condition = false;
+		if (videoService.getVideoById(0) == null)
+			condition = true;
+		assertTrue(condition);
+	}
+	
+	@Test
+	public void testValidAddVideo() throws Exception{
+		boolean condition = false;
+		Video video = new Video();
+		video.setMovieId(2);
+		video.setOwnerId(1);
+		Video response = videoService.addVideo(video);
+		List<Video> videos = videoService.getVideos();
+		for (Video v : videos) {
+			if (v.getVideoId().equals(response.getVideoId())){
+				condition = true;
+				break;
+			}
+		}
+		assertTrue(condition);
+	}
+	
+	@Test
+	public void testInvalidAddVideo() throws Exception{
+		boolean condition = false;
+		Video video = new Video();
+		try{
+			videoService.addVideo(video);
+		}
+		catch(Exception e){
+			condition = true;
+		}
+		assertTrue(condition);
+	}
 }

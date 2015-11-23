@@ -11,32 +11,31 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.rentflicks.RentFlicksApplication;
-import com.rentflicks.service.RequestService;
-
+import com.rentflicks.service.ReviewService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = RentFlicksApplication.class)
-public class TestRequest {
+public class TestReview {
 
-	private Request request;
-    
+	private Review review;
+	
 	@Autowired
-    private RequestService requestService;
-
-    @Before
+	private ReviewService reviewService;
+	
+	@Before
 	public void setUp() throws Exception{
-		request = new Request();
-		request.setBorrowerId(1);
-		request.setVideoId(1);
-		request.setCheckInDate(null);
-		request.setCheckOutDate(null);
+		review = new Review();
+		review.setUserId(1);
+		review.setMovieId(2);
+		review.setReview("test");
+		review.setRating((float) 9.8);
 	}
  
     @Test
-    public void testValidBorrowerId() throws Exception{
+    public void testValidUserId() throws Exception{
     	boolean exceptionCaught = false;
     	try{
-    		requestService.createRequest(request);
+    		reviewService.addMovie(review);
     	}catch(Exception e){
     		exceptionCaught = true;
     	}
@@ -44,12 +43,12 @@ public class TestRequest {
     }
   
     @Test
-    public void testInvalidBorrowerId() throws Exception{
+    public void testInvalidUserId() throws Exception{
     	
     	boolean exceptionCaught = false;
 		try{
-			request.setBorrowerId(0);
-			requestService.createRequest(request);
+			review.setUserId(null);
+			reviewService.addMovie(review);
 		}
 		catch(Exception e){
 			exceptionCaught = true;
@@ -58,10 +57,10 @@ public class TestRequest {
     }
     
     @Test
-    public void testValidVideoId() throws Exception{
+    public void testValidMovieId() throws Exception{
     	boolean exceptionCaught = false;
     	try{
-    		requestService.createRequest(request);
+    		reviewService.addMovie(review);
     	}catch(Exception e){
     		exceptionCaught = true;
     	}
@@ -69,65 +68,66 @@ public class TestRequest {
     }
   
     @Test
-    public void testInvalidVideoId() throws Exception{
+    public void testInvalidMovieId() throws Exception{
     	
     	boolean exceptionCaught = false;
 		try{
-			request.setVideoId(null);
-			requestService.createRequest(request);
+			review.setMovieId(1);
+			reviewService.addMovie(review);
 		}
 		catch(Exception e){
 			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
     }
-    @Test
-    public void testValidCheckInDate() throws Exception{
-    	boolean exceptionCaught = false;
-    	try{
-    		requestService.createRequest(request);
-    	}catch(Exception e){
-    		exceptionCaught = true;
-    	}
-    	assertFalse(exceptionCaught);
-    }
-  
-    /*@Test
-    public void testInvalidCheckInDate() throws Exception{
-    	
-    	boolean exceptionCaught = false;
-		try{
-			request.setCheckInDate(new LocalDate());
-			requestService.createRequest(request);
-		}
-		catch(Exception e){
-			exceptionCaught = true;
-		}
-		assertTrue(exceptionCaught);
-    }*/
     
     @Test
-    public void testValidCheckOutDate() throws Exception{
+    public void testValidReview() throws Exception{
     	boolean exceptionCaught = false;
     	try{
-    		requestService.createRequest(request);
+    		reviewService.addMovie(review);
     	}catch(Exception e){
     		exceptionCaught = true;
     	}
     	assertFalse(exceptionCaught);
     }
   
-    /*@Test
-    public void testInvalidCheckOutDate() throws Exception{
+    @Test
+    public void testInvalidReview() throws Exception{
     	
     	boolean exceptionCaught = false;
 		try{
-			request.setCheckOutDate(new LocalDate().plusMonths(12));
-			requestService.createRequest(request);
+			review.setReview(null);
+			reviewService.addMovie(review);
 		}
 		catch(Exception e){
 			exceptionCaught = true;
 		}
 		assertTrue(exceptionCaught);
-    }*/
+    }
+    
+    @Test
+    public void testValidRating() throws Exception{
+    	boolean exceptionCaught = false;
+    	try{
+    		reviewService.addMovie(review);
+    	}catch(Exception e){
+    		exceptionCaught = true;
+    	}
+    	assertFalse(exceptionCaught);
+    }
+  
+    @Test
+    public void testInvalidRating() throws Exception{
+    	
+    	boolean exceptionCaught = false;
+		try{
+			review.setRating((float) 12.5);
+			reviewService.addMovie(review);
+		}
+		catch(Exception e){
+			exceptionCaught = true;
+		}
+		assertTrue(exceptionCaught);
+    }
 }

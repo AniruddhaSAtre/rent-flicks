@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
@@ -20,6 +21,7 @@ public class Request {
 	@GeneratedValue
 	private Integer requestId;
 	
+	@NotNull(message = "Missing video ID")
 	private Integer videoId;
 	
 	public Integer getVideoId() {
@@ -34,6 +36,7 @@ public class Request {
 	  @JoinColumn(name="borrowerId", insertable=false, updatable=false)
 	  private User borrower;
 	
+	@NotNull(message = "Missing borrower ID")
 	private Integer borrowerId;
 	
 	public Integer getBorrowerId() {
